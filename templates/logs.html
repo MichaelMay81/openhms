@@ -1,0 +1,21 @@
+<div hx-get="/api/logs_page" hx-trigger="every 5s" hx-swap="outerHTML">
+    <div class="card">
+        <div class="card-header">SYSTEM CONSOLE</div>
+        <div class="card-body" style="background-color: #000; height: 500px; overflow-y: auto; padding: 1rem;">
+            <div id="log-container">
+                {% for log in logs %}
+                <div class="log-entry">
+                    <span class="log-timestamp">[{{ log.time_str }}]</span>
+                    <span class="level-{{ log.level }}">[{{ log.level }}]</span>
+                    {{ log.message }}
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Auto-scroll script -->
+            <script>
+                var objDiv = document.getElementById("log-container").parentElement;
+                objDiv.scrollTop = objDiv.scrollHeight;
+            </script>
+        </div>
+    </div>
+</div>

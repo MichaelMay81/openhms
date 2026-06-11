@@ -1,0 +1,23 @@
+<div hx-get="/api/info" hx-trigger="every 60s" hx-swap="outerHTML">
+    <div class="card">
+        <div class="card-header">INVERTER INFORMATION</div>
+        <div class="card-body">
+            <div class="metric-row">
+                <span class="metric-label">Inverter SN</span>
+                <span class="metric-value">{{ info.inverter_sn }}</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">Hardware Model</span>
+                <span class="metric-value">{{ info.hardware_model }}</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">WiFi SSID</span>
+                <span class="metric-value">{{ info.wifi_ssid }}</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">Firmware</span>
+                <span class="metric-value">{{ info.firmware_version }}</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openhms800"
+version = "0.1.0"
+description = "OpenHMS-800 web service."
+dependencies = [
+    "aiohttp",
+    "aiohttp-jinja2",
+    "jinja2",
+    "aiomqtt",
+    "pydantic",
+    "pydantic-settings",
+    "protobuf",
+    "hiflow-ble @ git+https://github.com/TheTiEr/hiflow-ble.git",
+    "hms800-ble @ git+https://github.com/MichaelMay81/hms800-ble.git",
+    "psutil",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/MichaelMay81/openhms800"
+"Bug Tracker" = "https://github.com/MichaelMay81/openhms800/issues"
+
+[project.scripts]
+openhms800 = "openhms800.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+openhms800 = ["templates/*", "static/*"]

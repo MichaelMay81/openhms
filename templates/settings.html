@@ -1,0 +1,91 @@
+<div hx-get="/api/settings" hx-trigger="every 30s" hx-swap="none">
+    <div class="card">
+        <div class="card-header">INVERTER SETTINGS</div>
+        <div class="card-body">
+            <form hx-post="/api/settings" hx-target="#settings-message" hx-swap="innerHTML">
+                <div class="metric-row" style="border-bottom: none;">
+                    <label class="metric-label" for="ble_address">BLE MAC Address</label>
+                    <input type="text" name="ble_address" value="{{ config.ble_address }}" 
+                           style="background: #000; color: #fff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">
+                </div>
+                <div class="metric-row" style="border-bottom: none;">
+                    <label class="metric-label" for="inverter_sn">Inverter Serial Number</label>
+                    <input type="text" name="inverter_sn" value="{{ config.inverter_sn }}"
+                           style="background: #000; color: #fff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">
+                </div>
+                <div class="metric-row" style="border-bottom: none;">
+                    <label class="metric-label" for="activation_id">Activation ID</label>
+                    <input type="text" name="activation_id" value="{{ config.activation_id }}"
+                           style="background: #000; color: #fff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">
+                </div>
+                <div class="metric-row" style="border-bottom: none;">
+                    <label class="metric-label" for="scan_interval">Scan Interval (seconds)</label>
+                    <input type="number" name="scan_interval" value="{{ config.scan_interval }}"
+                           style="background: #000; color: #fff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">
+                </div>
+                
+                <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                    <div class="card-header" style="background: none; padding-left: 0; color: var(--accent-blue);">MQTT SETTINGS</div>
+                    <div class="metric-row" style="border-bottom: none;">
+                        <label class="metric-label" for="mqtt_enabled">Enable MQTT</label>
+                        <input type="checkbox" name="mqtt_enabled" {% if config.mqtt_enabled %}checked{% endif %}>
+                    </div>
+                    <div class="metric-row" style="border-bottom: none;">
+                        <label class="metric-label" for="mqtt_broker">Broker Host</label>
+                        <input type="text" name="mqtt_broker" value="{{ config.mqtt_broker }}"
+                               style="background: #000; color: #fff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">
+                    </div>
+                    <div class="metric-row" style="border-bottom: none;">
+                        <label class="metric-label" for="mqtt_port">Port</label>
+                        <input type="number" name="mqtt_port" value="{{ config.mqtt_port }}"
+                               style="background: #000; color: #fff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">
+                    </div>
+                    <div class="metric-row" style="border-bottom: none;">
+                        <label class="metric-label" for="mqtt_client_id">Client ID</label>
+                        <input type="text" name="mqtt_client_id" value="{{ config.mqtt_client_id }}"
+                               style="background: #000; color: #fff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">
+                    </div>
+                    <div class="metric-row" style="border-bottom: none;">
+                        <label class="metric-label" for="mqtt_prefix">Topic Prefix</label>
+                        <input type="text" name="mqtt_prefix" value="{{ config.mqtt_prefix }}"
+                               style="background: #000; color: #fff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">
+                    </div>
+                    <div class="metric-row" style="border-bottom: none;">
+                        <label class="metric-label" for="mqtt_username">Username</label>
+                        <input type="text" name="mqtt_username" value="{{ config.mqtt_username or '' }}"
+                               style="background: #000; color: #fff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">
+                    </div>
+                    <div class="metric-row" style="border-bottom: none;">
+                        <label class="metric-label" for="mqtt_password">Password</label>
+                        <input type="password" name="mqtt_password" value="{{ config.mqtt_password or '' }}"
+                               style="background: #000; color: #fff; border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px;">
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
+                    <button type="submit" 
+                            style="background: var(--accent-blue); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                        Save Configuration
+                    </button>
+                    <div id="settings-message" style="font-size: 0.9rem;"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card" style="border-top: 4px solid var(--error-color);">
+        <div class="card-header" style="color: #ef4444;">SYSTEM MANAGEMENT</div>
+        <div class="card-body">
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                A restart is required for changes to BLE address or Scan Interval to take effect.
+            </p>
+            <button hx-post="/api/restart" 
+                    hx-confirm="Are you sure you want to restart the service?"
+                    hx-target="#restart-message"
+                    style="background: #374151; color: #ef4444; border: 1px solid #ef4444; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                Restart Service
+            </button>
+            <div id="restart-message" style="margin-top: 10px; font-size: 0.9rem;"></div>
+        </div>
+    </div>
+</div>

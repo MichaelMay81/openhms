@@ -1,0 +1,82 @@
+<div hx-get="/api/dashboard" hx-trigger="every 5s" hx-swap="outerHTML">
+    <div class="grid-main">
+        <!-- Left: Solar Power Summary -->
+        <div class="card">
+            <div class="card-header">SOLAR POWER</div>
+            <div class="card-body" style="text-align: center; padding: 2rem 0;">
+                <div class="power-value">{{ "%.1f"|format(metrics.active_power) }}<span class="power-unit">W</span></div>
+                <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+                    <span class="status-dot {{ 'online' if metrics.is_connected else 'offline' }}"></span>
+                    {{ 'ONLINE' if metrics.is_connected else 'OFFLINE' }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Production Stats -->
+        <div class="card">
+            <div class="card-header">PRODUCTION</div>
+            <div class="card-body">
+                <div class="metric-row">
+                    <span class="metric-label">Today</span>
+                    <span class="metric-value" style="color: var(--accent-green);">{{ "%.3f"|format(metrics.daily_energy) }} kWh</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Total</span>
+                    <span class="metric-value">--- kWh</span>
+                </div>
+                <div class="metric-row" style="margin-top: 1rem;">
+                    <span class="metric-label">Efficiency</span>
+                    <span class="metric-value">--- %</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inverter Details -->
+    <div class="card">
+        <div class="card-header">INVERTER 1 (HMS-800-2WB)</div>
+        <div class="card-body">
+            <div class="inputs-grid">
+                {% for pv in metrics.pv_channels %}
+                <div class="input-box">
+                    <div class="input-title">Input {{ pv.id }}</div>
+                    <div class="input-power">{{ "%.1f"|format(pv.power) }}<span class="power-unit">W</span></div>
+                    <div style="margin-top: 0.5rem;">
+                        <div class="metric-row">
+                            <span class="metric-label">Voltage</span>
+                            <span class="metric-value">{{ "%.1f"|format(pv.voltage) }} V</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">Current</span>
+                            <span class="metric-value">{{ "%.2f"|format(pv.current) }} A</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <div class="metric-row">
+                        <span class="metric-label">Grid Voltage</span>
+                        <span class="metric-value">{{ "%.1f"|format(metrics.grid_voltage) }} V</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Grid Frequency</span>
+                        <span class="metric-value">50.00 Hz</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="metric-row">
+                        <span class="metric-label">Temperature</span>
+                        <span class="metric-value">{{ "%.1f"|format(metrics.temperature) }} °C</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Last update</span>
+                        <span class="metric-value">{{ last_update_str }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

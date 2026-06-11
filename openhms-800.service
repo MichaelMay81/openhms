@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenHMS-800 Unified Service
+After=network.target
+
+[Service]
+User=SEARCH_USER
+WorkingDirectory=SEARCH_DIR
+ExecStart=SEARCH_DIR/.venv/bin/openhms800
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
