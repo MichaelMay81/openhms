@@ -21,6 +21,7 @@ The service is designed for deployment on a Raspberry Pi. The installation is sp
    chmod +x setup_app.sh
    ./setup_app.sh
    ```
+   *Note: On a Raspberry Pi 1, most dependencies are not available as pre-compiled binaries and will be compiled from source during installation. This process can take nearly 8 hours.*
 
 ### Phase 2: System Integration (Run with sudo)
 1. Download and run the systemd setup script:
@@ -42,3 +43,6 @@ Settings are managed in `config.json` (created in the installation directory). Y
 1. **BLE Layer:** Polls the inverter for raw metrics.
 2. **State Layer:** Normalizes and stores data in a structured, thread-safe container.
 3. **Web/MQTT Layer:** Serves the UI and forwards metrics to your broker.
+
+## Compatibility
+Due to older `rustc` versions available on target platforms like DietPi/Raspberry Pi 1, some dependencies (e.g., `pydantic-core`, `cryptography`) are pinned to versions compatible with `rustc 1.85.0`. These versions are locked in `uv.lock` to ensure build stability. If you upgrade your system's Rust toolchain, you may be able to update these dependencies.

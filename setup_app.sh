@@ -61,9 +61,17 @@ fi
 
 # 3. Setup VENV and install from GitHub
 echo "Setting up virtual environment and installing openhms800..."
+
+# Ensure the lockfile exists
+if [ ! -f "uv.lock" ]; then
+    echo "Lockfile not found locally. Fetching from GitHub..."
+    curl -sSL https://raw.githubusercontent.com/MichaelMay81/openhms800/master/openhms800/uv.lock -o uv.lock
+fi
+
 uv venv
 source .venv/bin/activate
-uv pip install --refresh git+https://github.com/MichaelMay81/openhms800.git
+# Use the lockfile as constraints to ensure reproducible installs
+uv pip install --constraint uv.lock --refresh git+https://github.com/MichaelMay81/openhms800.git
 
 echo ""
 echo "Phase 1 Complete."
