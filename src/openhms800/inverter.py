@@ -71,9 +71,10 @@ class InverterTask:
                     while self.running:
                         try:
                             resp = await hf.async_get_real_data_new()
-                            if resp:
-                                data = MessageToDict(resp, preserving_proto_field_name=True)
-                                await self._process_data(data)
+                            if resp is None:
+                                raise RuntimeError("Inverter query returned no data")
+                            data = MessageToDict(resp, preserving_proto_field_name=True)
+                            await self._process_data(data)
                             await asyncio.sleep(self.config.scan_interval)
                         except Exception as e:
                             await self.state.add_log("ERROR", f"Poll error: {str(e)}")

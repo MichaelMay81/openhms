@@ -21,7 +21,7 @@ The service is designed for deployment on a Raspberry Pi. The installation is sp
    chmod +x setup_app.sh
    ./setup_app.sh
    ```
-   *Note: On a Raspberry Pi 1, most dependencies are not available as pre-compiled binaries and will be compiled from source during installation. This process can take nearly 8 hours.*
+   *Note: On a Raspberry Pi 1, most dependencies are not available as pre-compiled binaries and will be compiled from source during installation. This process can take from 8 to nearly 30 hours.*
 
 ### Phase 2: System Integration (Run with sudo)
 1. Download and run the systemd setup script:

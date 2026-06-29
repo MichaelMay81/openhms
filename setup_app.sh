@@ -40,10 +40,17 @@ check_pkgs() {
 }
 
 # Verify System Tools (Core, Rust, Build)
-check_tools "python3 git uv rustc cargo pkg-config" "sudo apt install python3 git uv rustc cargo pkg-config"
+check_tools "python3 git rustc cargo pkg-config" "sudo apt install python3 git rustc cargo pkg-config"
+
+# Verify uv is installed
+if ! command -v uv >/dev/null 2>&1; then
+    echo "Error: uv is not installed."
+    echo "Hint: On DietPi, run 'sudo dietpi-software' and install option 217 (uv)."
+    exit 1
+fi
 
 # Verify System Packages (Build Essentials & Libraries)
-check_pkgs "build-essential libffi-dev libssl-dev" "sudo apt install build-essential libffi-dev libssl-dev"
+check_pkgs "build-essential libffi-dev libssl-dev python3-dev" "sudo apt install build-essential libffi-dev libssl-dev python3-dev"
 
 # 2. Resource Check (Memory + Swap)
 MEM_KB=$(grep MemTotal /proc/meminfo | awk '{print $2}')
@@ -62,16 +69,14 @@ fi
 # 3. Setup VENV and install from GitHub
 echo "Setting up virtual environment and installing openhms800..."
 
-# Ensure the lockfile exists
-if [ ! -f "uv.lock" ]; then
-    echo "Lockfile not found locally. Fetching from GitHub..."
-    curl -sSL https://raw.githubusercontent.com/MichaelMay81/openhms800/master/openhms800/uv.lock -o uv.lock
-fi
+# Set UV cache and CARGO_HOME to writable locations within the project
+export UV_CACHE_DIR="$(pwd)/.uv_cache"
+export CARGO_HOME="$(pwd)/.cargo_home"
 
 uv venv
 source .venv/bin/activate
-# Use the lockfile as constraints to ensure reproducible installs
-uv pip install --constraint uv.lock --refresh git+https://github.com/MichaelMay81/openhms800.git
+# Install directly from the repository
+uv pip install --refresh git+https://github.com/MichaelMay81/openhms800.git
 
 echo ""
 echo "Phase 1 Complete."
