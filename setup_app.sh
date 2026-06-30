@@ -73,7 +73,9 @@ echo "Setting up virtual environment and installing openhms800..."
 export UV_CACHE_DIR="$(pwd)/.uv_cache"
 export CARGO_HOME="$(pwd)/.cargo_home"
 
-uv venv
+if [ ! -d ".venv" ]; then
+    uv venv
+fi
 source .venv/bin/activate
 # Install directly from the repository
 uv pip install --refresh git+https://github.com/MichaelMay81/openhms800.git

@@ -21,6 +21,7 @@ class InverterTask:
         
         while self.running:
             try:
+                await self.state.update_metrics(is_connected=False)
                 await self.state.add_log("INFO", f"Connecting to Inverter {self.config.ble_address}...")
                 
                 async with HiFlow(
@@ -79,6 +80,8 @@ class InverterTask:
                         except Exception as e:
                             await self.state.add_log("ERROR", f"Poll error: {str(e)}")
                             break # Reconnect on error
+                
+                await self.state.update_metrics(is_connected=False)
             except Exception as e:
                 failure_count += 1
                 await self.state.update_error(str(e))
