@@ -103,6 +103,24 @@ async def handle_info(request):
         return aiohttp_jinja2.render_template("info.html", request, {"info": state.inverter_info})
     return aiohttp_jinja2.render_template("base.html", request, {"page": "info", "info": state.inverter_info})
 
+async def handle_opendtu_status(request):
+    state = request.app["state"]
+    yield_day_wh = int(state.metrics.daily_energy * 1000)
+    
+    payload = {
+        "inverters": [
+            {
+                "limit_relative": 100,
+                "limit_absolute": 800
+            }
+        ],
+        "total": {
+            "Power": {"v": state.metrics.active_power, "u": "W", "d": 1},
+            "YieldDay": {"v": yield_day_wh, "u": "Wh", "d": 0}
+        }
+    }
+    return web.json_response(payload)
+
 def setup_routes(app: web.Application):
     app.router.add_get("/", handle_dashboard)
     app.router.add_get("/logs", handle_logs)
@@ -118,3 +136,4 @@ def setup_routes(app: web.Application):
     app.router.add_get("/api/settings", handle_settings)
     app.router.add_post("/api/settings", api_settings_post)
     app.router.add_post("/api/restart", api_restart)
+    app.router.add_get("/api/livedata/status", handle_opendtu_status)
