@@ -104,19 +104,31 @@ async def handle_info(request):
     return aiohttp_jinja2.render_template("base.html", request, {"page": "info", "info": state.inverter_info})
 
 async def handle_opendtu_status(request):
-    state = request.app["state"]
+    state: SharedState = request.app["state"]
+    config: AppConfig = request.app["config"]
+
     yield_day_wh = int(state.metrics.daily_energy * 1000)
-    
+    is_connected = state.metrics.is_connected
+
+    # Use live limit values if available, otherwise fall back to rated defaults
+    limit_relative = round(state.metrics.power_limit_pct, 1) if state.metrics.power_limit_pct is not None else 100
+    limit_absolute = round(state.metrics.power_limit_w, 0) if state.metrics.power_limit_w is not None else 800
+
     payload = {
         "inverters": [
             {
-                "limit_relative": 100,
-                "limit_absolute": 800
+                "serial": config.inverter_sn or "unknown",
+                "name": "HMS-800-2WB",
+                "reachable": is_connected,
+                "producing": is_connected and state.metrics.active_power > 0,
+                "limit_relative": limit_relative,
+                "limit_absolute": limit_absolute,
             }
         ],
         "total": {
-            "Power": {"v": state.metrics.active_power, "u": "W", "d": 1},
-            "YieldDay": {"v": yield_day_wh, "u": "Wh", "d": 0}
+            "Power": {"v": round(state.metrics.active_power, 1), "u": "W", "d": 1},
+            "YieldDay": {"v": yield_day_wh, "u": "Wh", "d": 0},
+            "YieldTotal": {"v": round(state.metrics.total_energy, 3), "u": "kWh", "d": 3},
         }
     }
     return web.json_response(payload)
