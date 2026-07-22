@@ -1,10 +1,10 @@
 #!/bin/bash
-# OpenHMS-800: Phase 1 (Application Setup)
+# OpenHMS: Phase 1 (Application Setup)
 # To be run by the user who will own the service (non-sudo).
 
 set -e
 
-echo "OpenHMS-800: Starting Application Setup..."
+echo "OpenHMS: Starting Application Setup..."
 
 # 1. System Checks
 check_tools() {
@@ -67,7 +67,7 @@ if [ "$TOTAL_KB" -lt "$TARGET_KB" ]; then
 fi
 
 # 3. Setup VENV and install from GitHub
-echo "Setting up virtual environment and installing openhms800..."
+echo "Setting up virtual environment and installing openhms..."
 
 # Set UV cache and CARGO_HOME to writable locations within the project
 export UV_CACHE_DIR="$(pwd)/.uv_cache"
@@ -78,7 +78,7 @@ if [ ! -d ".venv" ]; then
 fi
 source .venv/bin/activate
 # Install directly from the repository
-uv pip install --refresh git+https://github.com/MichaelMay81/openhms800.git
+uv pip install --refresh git+https://github.com/MichaelMay81/openhms.git
 
 echo ""
 echo "Phase 1 Complete."

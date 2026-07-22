@@ -83,7 +83,7 @@
             {% elif page == 'info' %}
                 {% include 'info.html' %}
             {% elif page == 'settings' %}
-                <div class='card'><div class='card-header'>SETTINGS</div><div class='card-body'>Settings coming soon...</div></div>
+                {% include 'settings.html' %}
             {% else %}
                 <div hx-get="/api/dashboard" hx-trigger="load">
                     <div style="text-align:center; padding: 50px; color: var(--text-muted);">Fetching data from Inverter...</div>

@@ -8,9 +8,6 @@ from .state import SharedState
 from .config import AppConfig
 from .models import PVChannel
 
-# HMS-800-2WB rated AC power capacity in Watts
-HMS800_RATED_POWER_W = 800.0
-
 
 class InverterTask:
     def __init__(self, config: AppConfig, state: SharedState):
@@ -123,9 +120,7 @@ class InverterTask:
             metrics_update["temperature"] = (sgs.get("temperature") or 0) / 10.0
             raw_limit = sgs.get("power_limit")
             if raw_limit is not None and raw_limit > 0:
-                limit_w = raw_limit / 10.0
-                metrics_update["power_limit_w"] = limit_w
-                metrics_update["power_limit_pct"] = min((limit_w / HMS800_RATED_POWER_W) * 100.0, 100.0)
+                metrics_update["power_limit_w"] = raw_limit / 10.0
 
         pv_channels = []
         sum_daily = 0.0

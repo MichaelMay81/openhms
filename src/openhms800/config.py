@@ -12,7 +12,7 @@ class AppConfig(BaseSettings):
     ble_address: str = ""
     inverter_sn: str = ""
     inverter_pin: str = ""
-    
+
     mqtt_enabled: bool = False
     mqtt_broker: str = "192.168.66.102"
     mqtt_port: int = 1883

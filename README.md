@@ -1,8 +1,8 @@
-# OpenHMS-800 Unified Service
+# OpenHMS Unified Service
 
-A lightweight, asynchronous service for monitoring Hoymiles HMS-800-2WB microinverters via Bluetooth Low Energy (BLE).
+A lightweight, asynchronous service for monitoring Hoymiles microinverters via Bluetooth Low Energy (BLE), supporting any model covered by the [`hiflow-ble`](https://github.com/TheTiEr/hiflow-ble) library.
 
-[![GitHub](https://img.shields.io/badge/GitHub-openhms800-blue?logo=github)](https://github.com/MichaelMay81/openhms800)
+[![GitHub](https://img.shields.io/badge/GitHub-openhms-blue?logo=github)](https://github.com/MichaelMay81/openhms)
 
 ## Features
 - **Real-time Monitoring:** Multi-channel PV and AC grid metrics.
@@ -16,8 +16,8 @@ The service is designed for deployment on a Raspberry Pi. The installation is sp
 ### Phase 1: Application Setup (Run as the service user)
 1. Create a directory and download the setup script:
    ```bash
-   mkdir openhms800 && cd openhms800
-   curl -sSL https://raw.githubusercontent.com/MichaelMay81/openhms800/master/setup_app.sh -o setup_app.sh
+   mkdir openhms && cd openhms
+   curl -sSL https://raw.githubusercontent.com/MichaelMay81/openhms/master/setup_app.sh -o setup_app.sh
    chmod +x setup_app.sh
    ./setup_app.sh
    ```
@@ -26,7 +26,7 @@ The service is designed for deployment on a Raspberry Pi. The installation is sp
 ### Phase 2: System Integration (Run with sudo)
 1. Download and run the systemd setup script:
    ```bash
-   curl -sSL https://raw.githubusercontent.com/MichaelMay81/openhms800/master/setup_systemd.sh -o setup_systemd.sh
+   curl -sSL https://raw.githubusercontent.com/MichaelMay81/openhms/master/setup_systemd.sh -o setup_systemd.sh
    chmod +x setup_systemd.sh
    sudo ./setup_systemd.sh
    ```

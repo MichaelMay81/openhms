@@ -17,7 +17,6 @@ class InverterMetrics(BaseModel):
     efficiency: float = Field(0.0, description="Inverter Efficiency in Percent")
     daily_energy: float = Field(0.0, description="Daily Energy in kWh")
     total_energy: float = Field(0.0, description="Total Energy in kWh")
-    power_limit_pct: Optional[float] = Field(None, description="Power limit as percentage (0-100)")
     power_limit_w: Optional[float] = Field(None, description="Power limit in Watts")
     pv_channels: List[PVChannel] = []
     is_connected: bool = False

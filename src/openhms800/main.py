@@ -24,7 +24,7 @@ async def run_main():
 
     # 2. Initialize State
     state = SharedState()
-    await state.add_log("INFO", "OpenHMS-800 Service starting...")
+    await state.add_log("INFO", "OpenHMS Service starting...")
 
     # 3. Setup Web App
     app = web.Application()

@@ -111,9 +111,8 @@ async def handle_opendtu_status(request):
     yield_day_wh = int(state.metrics.daily_energy * 1000)
     is_connected = state.metrics.is_connected
 
-    # Use live limit values if available, otherwise fall back to rated defaults
-    limit_relative = round(state.metrics.power_limit_pct, 1) if state.metrics.power_limit_pct is not None else 100
-    limit_absolute = round(state.metrics.power_limit_w, 0) if state.metrics.power_limit_w is not None else 800
+    # No fabricated default: report null when the inverter hasn't reported a limit yet.
+    limit_absolute = round(state.metrics.power_limit_w, 0) if state.metrics.power_limit_w is not None else None
 
     payload = {
         "inverters": [
@@ -122,7 +121,6 @@ async def handle_opendtu_status(request):
                 "name": state.inverter_info.hardware_model,
                 "reachable": is_connected,
                 "producing": is_connected and state.metrics.active_power > 0,
-                "limit_relative": limit_relative,
                 "limit_absolute": limit_absolute,
             }
         ],

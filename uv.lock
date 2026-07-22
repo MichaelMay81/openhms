@@ -8,12 +8,12 @@ aiohappyeyeballs==2.6.2
     # via aiohttp
 aiohttp==3.14.1
     # via
-    #   openhms800 (pyproject.toml)
+    #   openhms (pyproject.toml)
     #   aiohttp-jinja2
 aiohttp-jinja2==1.6
-    # via openhms800 (pyproject.toml)
+    # via openhms (pyproject.toml)
 aiomqtt==2.5.1
-    # via openhms800 (pyproject.toml)
+    # via openhms (pyproject.toml)
 aiosignal==1.4.0
     # via aiohttp
 annotated-types==0.7.0
@@ -35,15 +35,15 @@ frozenlist==1.8.0
     #   aiosignal
 hiflow-ble @ git+https://github.com/TheTiEr/hiflow-ble.git@be74f3659063b20eee77334fe013a8e56394f79f
     # via
-    #   openhms800 (pyproject.toml)
+    #   openhms (pyproject.toml)
     #   hms800-ble
 hms800-ble @ git+https://github.com/MichaelMay81/hms800-ble.git@75e6f7dd9c585ff11bf394ecf42ae550ed020a33
-    # via openhms800 (pyproject.toml)
+    # via openhms (pyproject.toml)
 idna==3.18
     # via yarl
 jinja2==3.1.6
     # via
-    #   openhms800 (pyproject.toml)
+    #   openhms (pyproject.toml)
     #   aiohttp-jinja2
 markupsafe==3.0.3
     # via jinja2
@@ -59,22 +59,22 @@ propcache==0.5.2
     #   yarl
 protobuf==7.35.1
     # via
-    #   openhms800 (pyproject.toml)
+    #   openhms (pyproject.toml)
     #   hiflow-ble
     #   hms800-ble
 psutil==7.2.2
-    # via openhms800 (pyproject.toml)
+    # via openhms (pyproject.toml)
 pycparser==3.0
     # via cffi
 pydantic==2.12.5
     # via
-    #   openhms800 (pyproject.toml)
+    #   openhms (pyproject.toml)
     #   pydantic-settings
 pydantic-core==2.41.5
     # via
     #   pydantic
 pydantic-settings==2.14.1
-    # via openhms800 (pyproject.toml)
+    # via openhms (pyproject.toml)
 python-dotenv==1.2.2
     # via pydantic-settings
 typing-extensions==4.15.0
