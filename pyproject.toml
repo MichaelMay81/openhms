@@ -11,11 +11,15 @@ dependencies = [
     "aiohttp-jinja2",
     "jinja2",
     "aiomqtt",
-    "pydantic",
+    # Pinned: newer releases pull a pydantic-core build requiring rustc >= 1.88,
+    # which isn't available on DietPi/Raspberry Pi platforms (rustc 1.85.0).
+    "pydantic==2.12.5",
     "pydantic-settings",
     "protobuf",
     "hiflow-ble @ git+https://github.com/TheTiEr/hiflow-ble.git",
     "psutil",
+    # Pinned for the same rustc 1.85.0 compatibility reason as pydantic above.
+    "cryptography==43.0.3",
 ]
 
 [project.urls]
