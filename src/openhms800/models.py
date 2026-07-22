@@ -12,6 +12,7 @@ class PVChannel(BaseModel):
 class InverterMetrics(BaseModel):
     active_power: float = Field(0.0, description="AC Active Power in Watts")
     grid_voltage: float = Field(0.0, description="Grid Voltage in Volts")
+    grid_frequency: float = Field(0.0, description="Grid Frequency in Hertz")
     temperature: float = Field(0.0, description="Internal Temperature in Celsius")
     efficiency: float = Field(0.0, description="Inverter Efficiency in Percent")
     daily_energy: float = Field(0.0, description="Daily Energy in kWh")

@@ -13,6 +13,7 @@ async def get_dashboard_context(request):
         last_update_str = datetime.datetime.fromtimestamp(state.metrics.last_update).strftime("%H:%M:%S")
     return {
         "metrics": state.metrics,
+        "inverter_info": state.inverter_info,
         "last_update_str": last_update_str
     }
 
@@ -118,7 +119,7 @@ async def handle_opendtu_status(request):
         "inverters": [
             {
                 "serial": config.inverter_sn or "unknown",
-                "name": "HMS-800-2WB",
+                "name": state.inverter_info.hardware_model,
                 "reachable": is_connected,
                 "producing": is_connected and state.metrics.active_power > 0,
                 "limit_relative": limit_relative,

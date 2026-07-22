@@ -46,7 +46,7 @@
 
     <!-- Inverter Details -->
     <div class="card">
-        <div class="card-header">INVERTER 1 (HMS-800-2WB)</div>
+        <div class="card-header">INVERTER 1 ({{ inverter_info.hardware_model }})</div>
         <div class="card-body">
             <div class="inputs-grid">
                 {% for pv in metrics.pv_channels %}
@@ -85,7 +85,7 @@
                     </div>
                     <div class="metric-row">
                         <span class="metric-label">Grid Frequency</span>
-                        <span class="metric-value">50.00 Hz</span>
+                        <span class="metric-value">{{ "%.2f"|format(metrics.grid_frequency) }} Hz</span>
                     </div>
                 </div>
                 <div>

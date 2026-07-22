@@ -2,6 +2,7 @@ import asyncio
 import traceback
 
 from hiflow_ble.hiflow import HiFlow
+from hiflow_ble.hoymiles import get_inverter_model_name
 from google.protobuf.json_format import MessageToDict
 from .state import SharedState
 from .config import AppConfig
@@ -60,10 +61,14 @@ class InverterTask:
                         if not isinstance(fw_ver, str):
                             fw_ver = str(fw_ver)
 
+                        hardware_model = get_inverter_model_name(self.config.inverter_sn)
+                        if hardware_model == "Unknown":
+                            hardware_model = self.config.inverter_sn
+
                         await self.state.update_metrics(
                             inverter_info={
                                 "inverter_sn": self.config.inverter_sn,
-                                "hardware_model": "HMS-800-2WB",
+                                "hardware_model": hardware_model,
                                 "firmware_version": fw_ver,
                                 "wifi_ssid": cfg_dict.get("wifi_ssid", "Unknown")
                             }
@@ -114,6 +119,7 @@ class InverterTask:
             sgs = sgs_list[0]
             metrics_update["active_power"] = (sgs.get("active_power") or 0) / 10.0
             metrics_update["grid_voltage"] = (sgs.get("voltage") or 0) / 10.0
+            metrics_update["grid_frequency"] = (sgs.get("frequency") or 0) / 100.0
             metrics_update["temperature"] = (sgs.get("temperature") or 0) / 10.0
             raw_limit = sgs.get("power_limit")
             if raw_limit is not None and raw_limit > 0:
