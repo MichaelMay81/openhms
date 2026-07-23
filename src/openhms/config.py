@@ -25,7 +25,7 @@ class AppConfig(BaseSettings):
 
     
     scan_interval: int = 30
-    web_port: int = 8080
+    web_port: int = 80
     
     model_config = SettingsConfigDict(env_prefix="HMS_", json_file="config.json")
 
