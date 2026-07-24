@@ -54,7 +54,7 @@ To update an existing installation to the latest version:
 ```bash
 cd /opt/openhms   # or wherever you installed it
 source .venv/bin/activate
-uv pip install --refresh --force-reinstall git+https://github.com/MichaelMay81/openhms.git
+uv pip install --refresh git+https://github.com/MichaelMay81/openhms.git
 sudo systemctl restart openhms
 ```
 
