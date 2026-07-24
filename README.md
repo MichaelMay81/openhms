@@ -49,6 +49,20 @@ The scripts will:
 
 For a more security-hardened example — running the service under a dedicated, no-login system user in `/opt` — see [**DIETPI_SETUP.md**](DIETPI_SETUP.md).
 
+## Updating
+To update an existing installation to the latest version:
+```bash
+cd /opt/openhms   # or wherever you installed it
+source .venv/bin/activate
+uv pip install --refresh --force-reinstall git+https://github.com/MichaelMay81/openhms.git
+sudo systemctl restart openhms
+```
+
+If `openhms.service` itself has changed (e.g. new systemd directives), also re-apply it before restarting:
+```bash
+sudo ./setup_systemd.sh
+```
+
 ## Configuration
 Settings are managed in `config.json` (created in the installation directory). You can modify these via the **Settings** tab in the Web UI, which also includes a button to restart the service to apply changes.
 

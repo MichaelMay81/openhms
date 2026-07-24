@@ -7,6 +7,7 @@ User=SEARCH_USER
 WorkingDirectory=SEARCH_DIR
 ExecStart=SEARCH_DIR/.venv/bin/openhms
 AmbientCapabilities=CAP_NET_BIND_SERVICE
+TimeoutStopSec=30
 Restart=always
 RestartSec=10
 

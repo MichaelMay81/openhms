@@ -12,6 +12,10 @@ from .mqtt import MQTTTask
 from .inverter import InverterTask
 from .web import setup_routes
 
+# Internal cap on graceful shutdown so we exit under Python control even if
+# BLE teardown hangs; systemd's TimeoutStopSec is a backstop above this.
+SHUTDOWN_TIMEOUT = 15
+
 def main():
     try:
         asyncio.run(run_main())
@@ -71,13 +75,30 @@ async def run_main():
         pass
 
     await state.add_log("INFO", "Service shutting down gracefully...")
-    
-    # Signal tasks to stop
+
+    # Flip the cooperative flags first (belt-and-suspenders: prevents a fresh
+    # connection attempt from starting during teardown), then cancel the
+    # tasks outright. Unlike the flags alone, cancellation interrupts an
+    # in-progress sleep (including the up-to-300s reconnect backoff)
+    # immediately, raising CancelledError at the current await point. That
+    # propagates up through `async with HiFlow(...) as hf:` and triggers a
+    # real BLE disconnect via its __aexit__, instead of leaving the
+    # connection dangling until a SIGKILL cuts it off uncleanly.
     inverter_task.stop()
     mqtt_task.stop()
+    for t in bg_tasks:
+        t.cancel()
 
-    # Wait for tasks to finish (includes BLE disconnect sequence)
-    await asyncio.gather(*bg_tasks, return_exceptions=True)
+    # Bounded wait, not asyncio.wait_for(gather(...)): asyncio.wait does not
+    # re-cancel its arguments on timeout, so a slow-but-in-progress clean
+    # disconnect is never itself interrupted by this bound.
+    _, pending = await asyncio.wait(bg_tasks, timeout=SHUTDOWN_TIMEOUT)
+    if pending:
+        await state.add_log(
+            "WARNING",
+            f"Background task(s) did not stop within {SHUTDOWN_TIMEOUT}s; proceeding to exit.",
+        )
+
     await runner.cleanup()
 
 if __name__ == "__main__":
